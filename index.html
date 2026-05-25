@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عيادة — حجز المواعيد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#0d9488;--teal-dark:#0f766e;--teal-light:#ccfbf1;--bg:#f0fdfa;--gray:#64748b;--gray-light:#f1f5f9;--danger:#ef4444;--text:#1e293b;--shadow:0 4px 24px rgba(13,148,136,0.10);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+header{background:linear-gradient(135deg,#0f766e,#0d9488,#14b8a6);color:white;padding:24px 20px 18px;text-align:center;box-shadow:0 4px 20px rgba(13,148,136,0.3);}
+header h1{font-size:1.7rem;font-weight:900;}
+header p{font-size:0.88rem;opacity:0.85;margin-top:3px;}
+.hdr-user{font-size:0.82rem;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.hdr-user img{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);}
+.hdr-user span{background:rgba(255,255,255,0.15);padding:3px 12px;border-radius:20px;font-weight:700;}
+.hdr-user button{background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.4);color:white;padding:4px 14px;border-radius:20px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.8rem;font-weight:700;}
+.container{max-width:680px;margin:0 auto;padding:16px 14px 40px;}
+.page{display:none;}.page.active{display:block;}
+.card{background:white;border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:16px;border:1px solid rgba(13,148,136,0.08);}
+.card h2{font-size:1.1rem;font-weight:800;color:var(--teal-dark);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.form-group{margin-bottom:14px;}
+label{display:block;font-size:0.85rem;font-weight:700;color:var(--gray);margin-bottom:5px;}
+input,textarea{width:100%;padding:11px 13px;border:2px solid #e2e8f0;border-radius:11px;font-family:'Cairo',sans-serif;font-size:0.92rem;color:var(--text);background:#fafafa;transition:border 0.2s;outline:none;}
+input:focus,textarea:focus{border-color:var(--teal);background:white;}
+.btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:white;border:none;border-radius:13px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(13,148,136,0.3);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;}
+.btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none!important;}
+.btn-google{background:white;color:#3c4043;border:2px solid #dadce0;box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.btn-google:hover{background:#f8f9fa;}
+.btn-outline{background:white;color:var(--teal);border:2px solid var(--teal);box-shadow:none;}
+.btn-outline:hover{background:var(--teal-light);}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 4px 14px rgba(239,68,68,0.3);}
+.btn-sm{padding:7px 14px;font-size:0.82rem;border-radius:8px;width:auto;margin:0;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:4px;}
+.btn-sm-green{background:#dcfce7;color:#166534;}.btn-sm-green:hover{background:#bbf7d0;}
+.btn-sm-red{background:#fee2e2;color:#991b1b;}.btn-sm-red:hover{background:#fecaca;}
+.btn-sm-blue{background:#dbeafe;color:#1e40af;}.btn-sm-blue:hover{background:#bfdbfe;}
+.alert{padding:12px 15px;border-radius:11px;font-size:0.88rem;font-weight:600;margin-bottom:14px;display:none;line-height:1.6;}
+.alert-error{background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;}
+.alert-success{background:#dcfce7;color:#166534;border:1.5px solid #86efac;}
+.info-box{background:var(--teal-light);border:1.5px solid #5eead4;border-radius:11px;padding:11px 14px;margin-bottom:14px;font-size:0.88rem;color:var(--teal-dark);font-weight:600;}
+#ticket-wrap{background:linear-gradient(135deg,#0f766e,#0d9488);border-radius:18px;padding:26px;color:white;text-align:center;margin-bottom:16px;display:none;}
+.ticket-num{font-size:4.5rem;font-weight:900;line-height:1;}
+.ticket-label{font-size:0.85rem;opacity:0.8;margin-bottom:4px;}
+.ticket-name{font-size:1.3rem;font-weight:800;margin:6px 0;}
+.ticket-info{font-size:0.95rem;opacity:0.9;margin:3px 0;}
+.ticket-dots{display:flex;justify-content:center;gap:5px;margin:14px 0;}
+.ticket-dots span{width:7px;height:7px;background:rgba(255,255,255,0.4);border-radius:50%;}
+.tabs{display:flex;justify-content:center;gap:8px;padding:14px 14px 0;flex-wrap:wrap;}
+.tab-btn{padding:9px 20px;border:2px solid var(--teal);background:white;color:var(--teal);border-radius:50px;font-family:'Cairo',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.tab-btn.active,.tab-btn:hover{background:var(--teal);color:white;}
+.appt-card{background:var(--gray-light);border-radius:13px;padding:14px;margin-bottom:10px;border-right:4px solid var(--teal);}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-box{background:white;border-radius:13px;padding:14px;text-align:center;border:1.5px solid #e2e8f0;}
+.stat-num{font-size:1.7rem;font-weight:900;color:var(--teal);}
+.stat-label{font-size:0.72rem;color:var(--gray);font-weight:600;margin-top:2px;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:50px;font-size:0.73rem;font-weight:700;}
+.badge-done{background:#dcfce7;color:#166534;}
+.badge-pending{background:#fef9c3;color:#854d0e;}
+.badge-cancelled{background:#fee2e2;color:#991b1b;}
+.empty{text-align:center;padding:36px 20px;color:var(--gray);}
+.empty-icon{font-size:2.8rem;margin-bottom:8px;}
+.filter-row{display:flex;gap:8px;margin-bottom:14px;}
+.filter-row input{margin:0;}
+.filter-row .btn{width:auto;padding:11px 16px;margin:0;font-size:0.88rem;}
+.note-area{min-height:50px;resize:vertical;margin-top:7px;font-size:0.85rem;}
+.admin-appt-item{background:white;border:1.5px solid #e2e8f0;border-radius:13px;padding:14px;margin-bottom:10px;}
+.admin-appt-item:hover{border-color:var(--teal);}
+.admin-actions{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;}
+.spin{display:inline-block;width:17px;height:17px;border:3px solid rgba(0,0,0,0.12);border-top-color:#555;border-radius:50%;animation:sp 0.7s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+/* إشعار */
+.notif{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:white;border-radius:14px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,0.15);border-right:4px solid var(--teal);display:flex;align-items:center;gap:10px;z-index:9999;min-width:280px;max-width:92vw;font-family:'Cairo',sans-serif;animation:nin 0.4s ease;}
+.notif.hide{animation:nout 0.3s ease forwards;}
+@keyframes nin{from{top:-70px;opacity:0}to{top:14px;opacity:1}}
+@keyframes nout{from{top:14px;opacity:1}to{top:-70px;opacity:0}}
+.notif-ico{font-size:1.7rem;flex-shrink:0;}
+.notif-t{font-weight:800;font-size:0.93rem;color:var(--text);}
+.notif-b{font-size:0.8rem;color:var(--gray);margin-top:1px;}
+/* شبكة الأوقات */
+.times-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px;}
+.ts{padding:10px 4px;border:2px solid #e2e8f0;border-radius:10px;text-align:center;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.15s;background:white;color:var(--text);width:100%;}
+.ts:hover:not([disabled]){border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);}
+.ts.sel{background:var(--teal);border-color:var(--teal-dark);color:white;transform:scale(1.04);box-shadow:0 3px 10px rgba(13,148,136,0.35);}
+.ts[disabled]{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
+.ts.taken{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
+@media print{body *{visibility:hidden;}#print-area,#print-area *{visibility:visible;}#print-area{position:fixed;top:0;left:0;width:100%;background:white;padding:20px;}}
+</style>
+</head>
+<body>
+
+<div id="notif-box" style="display:none" class="notif">
+  <div class="notif-ico" id="notif-ico">🔔</div>
+  <div><div class="notif-t" id="notif-t"></div><div class="notif-b" id="notif-b"></div></div>
+</div>
+
+<header>
+  <h1 id="hdr-title">🏥 عيادة حجز المواعيد</h1>
+  <p>احجز موعدك بسهولة — نهتم بصحتك</p>
+  <div class="hdr-user" id="hdr-user" style="display:none">
+    <img id="hdr-photo" src="" alt="" onerror="this.style.display='none'">
+    <span id="hdr-name"></span>
+    <button id="btn-logout">🚪 خروج</button>
+  </div>
+</header>
+
+<!-- AUTH -->
+<div id="page-auth" class="page active">
+  <div class="container" style="max-width:420px"><br>
+    <div class="card" style="text-align:center;padding:34px 24px;">
+      <div style="font-size:3rem;margin-bottom:10px">🏥</div>
+      <h2 style="justify-content:center;font-size:1.2rem;margin-bottom:8px">مرحباً بك</h2>
+      <p style="color:var(--gray);font-size:0.9rem;margin-bottom:26px;line-height:1.7;">سجّل دخولك بحساب Google<br>لحجز موعدك في العيادة</p>
+      <div id="auth-alert" class="alert alert-error"></div>
+      <button class="btn btn-google" id="btn-glogin">
+        <svg width="21" height="21" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        المتابعة بحساب Google
+      </button>
+      <p style="color:var(--gray);font-size:0.76rem;margin-top:16px;line-height:1.6;">بتسجيل دخولك توافق على استخدام بياناتك لأغراض الحجز الطبي فقط</p>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <button id="btn-to-admin" style="background:none;border:none;color:var(--gray);font-size:0.76rem;cursor:pointer;opacity:0.4;font-family:'Cairo',sans-serif;">دخول الطبيب</button>
+    </div>
+  </div>
+</div>
+
+<!-- PATIENT -->
+<div id="page-patient" class="page">
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-book-btn">📋 حجز موعد</button>
+    <button class="tab-btn" id="tab-my-btn">🗓️ مواعيدي</button>
+  </div>
+  <div class="container">
+    <div id="pt-book">
+      <div id="ticket-wrap">
+        <div id="print-area">
+          <div class="ticket-label">🎫 تذكرة موعدك</div>
+          <div class="ticket-num" id="t-num">1</div>
+          <div class="ticket-dots"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="ticket-name" id="t-name"></div>
+          <div class="ticket-info" id="t-date"></div>
+          <div class="ticket-info" id="t-time"></div>
+          <div class="ticket-info" id="t-phone"></div>
+          <br><div style="font-size:0.8rem;opacity:0.75">يُرجى الحضور قبل موعدك بـ 10 دقائق</div>
+        </div>
+        <br>
+        <button class="btn" onclick="window.print()" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.5);">🖨️ طباعة التذكرة</button>
+      </div>
+      <div class="card">
+        <h2>📋 حجز موعد جديد</h2>
+        <div id="book-alert" class="alert"></div>
+        <div class="form-group"><label>👤 الاسم الكامل</label><input type="text" id="b-name"></div>
+        <div class="form-group"><label>📞 رقم الهاتف</label><input type="tel" id="b-phone" placeholder="05xxxxxxxx"></div>
+        <div class="form-group"><label>📅 تاريخ الموعد (الجمعة إجازة)</label><input type="date" id="b-date"></div>
+        <div id="times-wrap" style="display:none">
+          <label style="display:block;font-size:0.85rem;font-weight:700;color:var(--gray);margin-bottom:6px;">⏰ اختر الوقت المناسب</label>
+          <div id="times-grid" class="times-grid"></div>
+          <input type="hidden" id="b-time">
+        </div>
+        <div id="slots-info" class="info-box" style="display:none"></div>
+        <button class="btn" id="btn-book">✅ تأكيد الحجز</button>
+      </div>
+    </div>
+    <div id="pt-my" style="display:none">
+      <div class="card"><h2>🗓️ مواعيدي</h2><div id="my-list"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div class="container">
+    <div id="admin-login" class="card" style="max-width:420px;margin:20px auto;text-align:center;padding:34px 24px;">
+      <div style="font-size:2.8rem;margin-bottom:10px">👨‍⚕️</div>
+      <h2 style="justify-content:center;margin-bottom:8px">لوحة الطبيب</h2>
+      <p style="color:var(--gray);font-size:0.9rem;margin-bottom:22px">سجّل دخولك بحساب Google الخاص بالطبيب</p>
+      <div id="admin-alert" class="alert alert-error"></div>
+      <button class="btn btn-google" id="btn-admin-login">
+        <svg width="21" height="21" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        دخول بحساب Google
+      </button>
+      <br>
+      <button class="btn btn-outline" id="btn-back" style="margin-top:4px;">← رجوع</button>
+    </div>
+    <div id="admin-dash" style="display:none">
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-num" id="s-total">0</div><div class="stat-label">إجمالي</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-today">0</div><div class="stat-label">اليوم</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-done">0</div><div class="stat-label">مكتملة</div></div>
+      </div>
+      <div class="card">
+        <h2>🗂️ إدارة المواعيد</h2>
+        <div class="filter-row">
+          <input type="date" id="a-filter">
+          <button class="btn" id="btn-af">🔍</button>
+          <button class="btn btn-outline" id="btn-af-all">الكل</button>
+        </div>
+        <div id="a-list"><div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div></div>
+      </div>
+      <div class="card">
+        <h2>⚙️ الإعدادات</h2>
+        <div class="form-group"><label>اسم العيادة</label><input type="text" id="clinic-name" placeholder="عيادة د. محمد"></div>
+        <div class="form-group"><label>ساعات العمل</label><input type="text" id="work-hours" placeholder="08:00 — 13:00"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" id="btn-save">💾 حفظ</button>
+          <button class="btn btn-outline" id="btn-admin-out" style="width:auto;padding:13px 18px;">🚪 خروج</button>
+          <button class="btn btn-danger" id="btn-del-all" style="width:auto;padding:13px 18px;">🗑️ حذف الكل</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:            "AIzaSyDJNYTtR2Tji2KiOE9X9N8mUbY2lOkW1sA",
+  authDomain:        "clinic-booking-320c5.firebaseapp.com",
+  projectId:         "clinic-booking-320c5",
+  storageBucket:     "clinic-booking-320c5.firebasestorage.app",
+  messagingSenderId: "58364745099",
+  appId:             "1:58364745099:web:f7beccc489ae830ec30b8e"
+});
+
+const DOCTOR = "essadek650@gmail.com";
+const auth = firebase.auth();
+const db   = firebase.firestore();
+const gp   = new firebase.auth.GoogleAuthProvider();
+gp.setCustomParameters({prompt:'select_account'});
+
+let me = null, adminWatcher = null, adminCount = 0, ntimer = null;
+
+// ── مساعدات ─────────────────────
+const el  = id => document.getElementById(id);
+const fri = d  => new Date(d+'T00:00:00').getDay()===5;
+const fmt = d  => new Date(d+'T00:00:00').toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const tod = () => new Date().toISOString().split('T')[0];
+
+function pg(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  el('page-'+p).classList.add('active');
+}
+
+function alrt(id,msg,type='error'){
+  const e=el(id); e.innerHTML=msg; e.className='alert alert-'+type; e.style.display='block';
+  if(type!=='warning') setTimeout(()=>e.style.display='none',5000);
+}
+
+function notif(ico,title,body,ms=5000){
+  clearTimeout(ntimer);
+  el('notif-ico').textContent=ico; el('notif-t').textContent=title; el('notif-b').textContent=body;
+  const b=el('notif-box'); b.style.display='flex'; b.classList.remove('hide');
+  ntimer=setTimeout(()=>{b.classList.add('hide');setTimeout(()=>b.style.display='none',350);},ms);
+}
+
+function beep(){
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    [440,550,660].forEach((f,i)=>{
+      const o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);
+      o.frequency.value=f;g.gain.value=0.25;
+      o.start(c.currentTime+i*0.15);o.stop(c.currentTime+i*0.15+0.12);
+    });
+  }catch(e){}
+}
+
+const GSVG = `<svg width="21" height="21" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>`;
+
+// ── AUTH ─────────────────────────
+auth.onAuthStateChanged(async user=>{
+  me=user;
+  if(!user){
+    el('hdr-user').style.display='none';
+    pg(window.location.hash==='#admin'?'admin':'auth');
+    return;
+  }
+  el('hdr-user').style.display='flex';
+  el('hdr-name').textContent=user.displayName||user.email;
+  if(user.photoURL) el('hdr-photo').src=user.photoURL;
+
+  if(user.email===DOCTOR){
+    pg('admin');
+    el('admin-login').style.display='none';
+    el('admin-dash').style.display='block';
+    loadSettings(); loadAdmin(); startWatch();
+    return;
+  }
+  pg('patient');
+  el('b-name').value=user.displayName||'';
+  el('b-date').min=tod();
+  try{const s=await db.collection('users').doc(user.uid).get(); if(s.exists) el('b-phone').value=s.data().phone||'';}catch(e){}
+  // تذكير غداً
+  const tmr=new Date(); tmr.setDate(tmr.getDate()+1);
+  const tmrStr=tmr.toISOString().split('T')[0];
+  db.collection('appointments').where('userId','==',user.uid).where('date','==',tmrStr).where('done','==',false).get()
+    .then(s=>{if(!s.empty){const a=s.docs[0].data();setTimeout(()=>notif('⏰','تذكير بموعدك غداً',`${a.name} — الساعة ${a.time}`,8000),2000);}});
+});
+
+// ── تسجيل دخول ──────────────────
+el('btn-glogin').addEventListener('click',async()=>{
+  el('btn-glogin').disabled=true;
+  el('btn-glogin').innerHTML='<span class="spin"></span> جاري الاتصال...';
+  try{ await auth.signInWithPopup(gp); }
+  catch(e){
+    el('btn-glogin').disabled=false;
+    el('btn-glogin').innerHTML=GSVG+' المتابعة بحساب Google';
+    if(e.code!=='auth/popup-closed-by-user') alrt('auth-alert','❌ حدث خطأ — حاول مرة أخرى');
+  }
+});
+
+el('btn-admin-login').addEventListener('click',async()=>{
+  el('btn-admin-login').disabled=true;
+  el('btn-admin-login').innerHTML='<span class="spin"></span> جاري الاتصال...';
+  try{
+    const r=await auth.signInWithPopup(gp);
+    if(r.user.email!==DOCTOR){
+      await auth.signOut();
+      el('btn-admin-login').disabled=false;
+      el('btn-admin-login').innerHTML=GSVG+' دخول بحساب Google';
+      const a=el('admin-alert'); a.textContent='❌ هذا الحساب ليس حساب الطبيب'; a.style.display='block';
+    }
+  }catch(e){
+    el('btn-admin-login').disabled=false;
+    el('btn-admin-login').innerHTML=GSVG+' دخول بحساب Google';
+  }
+});
+
+function doLogout(){
+  if(adminWatcher){adminWatcher();adminWatcher=null;}
+  adminCount=0;
+  el('btn-glogin').disabled=false; el('btn-glogin').innerHTML=GSVG+' المتابعة بحساب Google';
+  el('btn-admin-login').disabled=false; el('btn-admin-login').innerHTML=GSVG+' دخول بحساب Google';
+  el('admin-login').style.display='block'; el('admin-dash').style.display='none';
+  auth.signOut(); window.location.hash=''; pg('auth');
+}
+
+el('btn-logout').addEventListener('click',doLogout);
+el('btn-admin-out').addEventListener('click',doLogout);
+el('btn-to-admin').addEventListener('click',()=>{window.location.hash='#admin';pg('admin');});
+el('btn-back').addEventListener('click',()=>{window.location.hash='';pg('auth');});
+
+// ── تبويبات المريض ───────────────
+el('tab-book-btn').addEventListener('click',function(){
+  el('pt-book').style.display='block'; el('pt-my').style.display='none';
+  this.classList.add('active'); el('tab-my-btn').classList.remove('active');
+});
+el('tab-my-btn').addEventListener('click',function(){
+  el('pt-book').style.display='none'; el('pt-my').style.display='block';
+  this.classList.add('active'); el('tab-book-btn').classList.remove('active');
+  loadMy();
+});
+
+// ── اختيار التاريخ → شبكة الأوقات ─
+el('b-date').addEventListener('change',async function(){
+  const d=this.value, si=el('slots-info'), tw=el('times-wrap');
+  el('b-time').value=''; tw.style.display='none'; si.style.display='none';
+  if(!d) return;
+  if(fri(d)){
+    si.style.cssText='display:block;background:#fee2e2;color:#991b1b;border-color:#fca5a5;';
+    si.textContent='⛔ يوم الجمعة إجازة — اختر يوماً آخر'; return;
+  }
+  tw.style.display='block';
+  el('times-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--gray);font-size:0.88rem">⏳ جاري تحميل الأوقات...</div>';
+  const snap=await db.collection('appointments').where('date','==',d).get();
+  const taken=new Set(snap.docs.filter(x=>!x.data().cancelled).map(x=>x.data().time));
+
+  // الفترة الأولى 08:00 - 13:00 (20 وقت)
+  const slots1=[]; for(let i=0;i<20;i++){const t=8*60+i*15;slots1.push(String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'));}
+  // الفترة الثانية 13:00 - 17:30 (19 وقت)
+  const slots2=[]; for(let i=0;i<19;i++){const t=13*60+i*15;slots2.push(String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'));}
+  const allSlots=[...slots1,...slots2];
+
+  const free=allSlots.filter(t=>!taken.has(t));
+  if(!free.length){
+    tw.style.display='none';
+    si.style.cssText='display:block;background:#fee2e2;color:#991b1b;border-color:#fca5a5;';
+    si.textContent='⛔ جميع الأوقات محجوزة لهذا اليوم'; return;
+  }
+
+  const makeSlots = slots => slots.map(t=>`<button class="ts${taken.has(t)?' disabled':''}" ${taken.has(t)?'disabled':''} onclick="pickTime('${t}',this)">${t}</button>`).join('');
+
+  el('times-grid').innerHTML=`
+    <div style="grid-column:1/-1;font-size:0.82rem;font-weight:800;color:var(--teal-dark);padding:6px 0 4px;border-bottom:2px solid var(--teal-light);margin-bottom:4px;">🌅 الفترة الصباحية — 08:00 إلى 13:00</div>
+    ${makeSlots(slots1)}
+    <div style="grid-column:1/-1;font-size:0.82rem;font-weight:800;color:var(--teal-dark);padding:10px 0 4px;border-bottom:2px solid var(--teal-light);margin-bottom:4px;">🌆 الفترة المسائية — 13:00 إلى 17:30</div>
+    ${makeSlots(slots2)}
+  `;
+  si.style.cssText=''; si.style.display='block';
+  si.textContent=`✅ ${free.length} وقت متاح من ${allSlots.length} — اختر وقتك`;
+});
+
+window.pickTime=function(t,btn){
+  document.querySelectorAll('.ts.sel').forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel'); el('b-time').value=t;
+};
+
+// ── حجز موعد ─────────────────────
+el('btn-book').addEventListener('click',async()=>{
+  if(!me) return;
+  const name=el('b-name').value.trim(), phone=el('b-phone').value.trim();
+  const date=el('b-date').value, time=el('b-time').value;
+  if(!name)  return alrt('book-alert','⚠️ أدخل الاسم الكامل');
+  if(!phone||phone.length<9) return alrt('book-alert','⚠️ أدخل رقم هاتف صحيح');
+  if(!date)  return alrt('book-alert','⚠️ اختر تاريخ الموعد');
+  if(fri(date)) return alrt('book-alert','⛔ يوم الجمعة إجازة');
+  if(!time)  return alrt('book-alert','⚠️ اختر الوقت من الشبكة أعلاه');
+  el('btn-book').disabled=true; el('btn-book').innerHTML='<span class="spin"></span>';
+  try{
+    const snap=await db.collection('appointments').where('date','==',date).get();
+    const active=snap.docs.filter(d=>!d.data().cancelled);
+    if(active.some(d=>d.data().time===time)){
+      el('btn-book').disabled=false; el('btn-book').innerHTML='✅ تأكيد الحجز';
+      el('b-date').dispatchEvent(new Event('change'));
+      return alrt('book-alert','⚠️ هذا الوقت حُجز للتو — اختر وقتاً آخر');
+    }
+    if(active.some(d=>d.data().userId===me.uid)){
+      el('btn-book').disabled=false; el('btn-book').innerHTML='✅ تأكيد الحجز';
+      return alrt('book-alert','⚠️ لديك حجز مسبق في هذا اليوم');
+    }
+    const num=active.length+1;
+    await db.collection('appointments').add({
+      userId:me.uid, userEmail:me.email, name, phone, date, time, num,
+      done:false, cancelled:false, note:'',
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await db.collection('users').doc(me.uid).set({name,phone,email:me.email,photo:me.photoURL||''},{merge:true});
+    el('t-num').textContent=num; el('t-name').textContent=name;
+    el('t-date').textContent='📅 '+fmt(date);
+    el('t-time').textContent='⏰ الساعة: '+time;
+    el('t-phone').textContent='📞 '+phone;
+    const tw=el('ticket-wrap'); tw.style.display='block'; tw.scrollIntoView({behavior:'smooth'});
+    el('b-date').value=''; el('b-time').value='';
+    el('times-wrap').style.display='none'; el('slots-info').style.display='none';
+    alrt('book-alert',`🎉 تم الحجز! رقمك ${num} — الساعة ${time}`,'success');
+    notif('✅','تم الحجز بنجاح!',`رقمك ${num} — ${fmt(date)} الساعة ${time}`);
+    el('btn-book').disabled=false; el('btn-book').innerHTML='✅ تأكيد الحجز';
+  }catch(e){
+    el('btn-book').disabled=false; el('btn-book').innerHTML='✅ تأكيد الحجز';
+    alrt('book-alert','❌ خطأ: '+e.message);
+  }
+});
+
+// ── مواعيدي ──────────────────────
+async function loadMy(){
+  const box=el('my-list');
+  box.innerHTML='<div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div>';
+  const snap=await db.collection('appointments').where('userId','==',me.uid).get();
+  let appts=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  if(!appts.length){box.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>لا توجد مواعيد بعد</p></div>';return;}
+  const now=tod();
+  box.innerHTML=appts.map(a=>`
+    <div class="appt-card" style="${a.cancelled?'opacity:0.55;border-right-color:#ef4444':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div>
+          <div style="font-weight:800">${a.name}
+            <span style="background:${a.cancelled?'#ef4444':'var(--teal)'};color:white;border-radius:20px;padding:2px 10px;font-size:0.73rem">رقم ${a.num}</span>
+          </div>
+          <div style="color:var(--gray);font-size:0.83rem;margin-top:4px">📅 ${fmt(a.date)}</div>
+          <div style="color:var(--gray);font-size:0.83rem">⏰ ${a.time} | 📞 ${a.phone}</div>
+        </div>
+        <span class="badge ${a.cancelled?'badge-cancelled':a.done?'badge-done':'badge-pending'}">${a.cancelled?'❌ ملغي':a.done?'✅ مكتمل':'⏳ قادم'}</span>
+      </div>
+      ${!a.cancelled&&!a.done&&a.date>=now?`<div style="margin-top:9px"><button class="btn-sm btn-sm-red" onclick="cancelMy('${a.id}','${a.date}')">❌ إلغاء الموعد</button></div>`:''}
+    </div>`).join('');
+}
+
+window.cancelMy=async(id,date)=>{
+  if(!confirm('هل تريد إلغاء هذا الموعد؟')) return;
+  await db.collection('appointments').doc(id).update({cancelled:true});
+  notif('❌','تم إلغاء الموعد','يمكنك حجز موعد جديد في أي وقت');
+  loadMy();
+  // إعادة ترقيم
+  const snap=await db.collection('appointments').where('date','==',date).get();
+  const active=snap.docs.filter(d=>!d.data().cancelled).sort((a,b)=>a.data().time.localeCompare(b.data().time));
+  const batch=db.batch();
+  active.forEach((doc,i)=>batch.update(doc.ref,{num:i+1}));
+  await batch.commit();
+};
+
+// ── لوحة الطبيب ──────────────────
+function startWatch(){
+  if(adminWatcher) return;
+  adminWatcher=db.collection('appointments').onSnapshot(snap=>{
+    const n=snap.size;
+    if(adminCount>0&&n>adminCount){
+      const last=snap.docs[snap.docs.length-1].data();
+      beep(); notif('🔔','حجز جديد!',`${last.name} — ${fmt(last.date)} الساعة ${last.time}`,7000);
+      loadAdmin();
+    }
+    adminCount=n;
+    el('s-total').textContent=n;
+    el('s-today').textContent=snap.docs.filter(d=>d.data().date===tod()).length;
+    el('s-done').textContent=snap.docs.filter(d=>d.data().done).length;
+  });
+}
+
+el('btn-af').addEventListener('click',loadAdmin);
+el('btn-af-all').addEventListener('click',()=>{el('a-filter').value='';loadAdmin();});
+
+async function loadAdmin(){
+  const fd=el('a-filter').value, box=el('a-list');
+  box.innerHTML='<div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div>';
+  const snap=await db.collection('appointments').get();
+  let appts=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(fd) appts=appts.filter(a=>a.date===fd);
+  appts.sort((a,b)=>a.date.localeCompare(b.date)||a.time.localeCompare(b.time));
+  if(!appts.length){box.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>لا توجد مواعيد</p></div>';return;}
+  let html='',last='';
+  for(const a of appts){
+    if(a.date!==last){
+      const cnt=appts.filter(x=>x.date===a.date&&!x.cancelled).length;
+      html+=`<div style="font-size:0.82rem;font-weight:800;color:var(--teal-dark);margin:14px 0 8px;padding-bottom:4px;border-bottom:2px solid var(--teal-light);display:flex;justify-content:space-between">
+        <span>${fmt(a.date)}</span><span style="background:var(--teal);color:white;border-radius:20px;padding:2px 10px;font-size:0.72rem">${cnt} موعد</span></div>`;
+      last=a.date;
+    }
+    html+=`<div class="admin-appt-item" style="${a.cancelled?'opacity:0.5;border-right:3px solid #ef4444':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+        <div>
+          <div style="font-weight:800">${a.name}
+            <span style="background:${a.cancelled?'#ef4444':'var(--teal)'};color:white;border-radius:20px;padding:2px 10px;font-size:0.73rem">رقم ${a.num}</span>
+          </div>
+          <div style="color:var(--gray);font-size:0.83rem;margin-top:4px">📞 ${a.phone} | ⏰ ${a.time}</div>
+          <div style="color:var(--gray);font-size:0.78rem">📧 ${a.userEmail||'—'}</div>
+        </div>
+        <span class="badge ${a.cancelled?'badge-cancelled':a.done?'badge-done':'badge-pending'}">${a.cancelled?'❌ ملغي':a.done?'✅ مكتمل':'⏳ قادم'}</span>
+      </div>
+      ${!a.cancelled?`
+      <textarea class="note-area" id="note-${a.id}" placeholder="ملاحظات الطبيب...">${a.note||''}</textarea>
+      <div class="admin-actions">
+        <button class="btn-sm btn-sm-green" onclick="tDone('${a.id}',${a.done})">${a.done?'↩️ إلغاء':'✅ تم الكشف'}</button>
+        <button class="btn-sm btn-sm-blue" onclick="sNote('${a.id}')">💾 ملاحظة</button>
+        <button class="btn-sm btn-sm-red" onclick="dAppt('${a.id}')">🗑️ حذف</button>
+      </div>`:`<div style="color:#991b1b;font-size:0.82rem;margin-top:8px">ألغاه المريض — <button class="btn-sm btn-sm-red" onclick="dAppt('${a.id}')">🗑️ حذف</button></div>`}
+    </div>`;
+  }
+  box.innerHTML=html;
+}
+
+window.tDone=async(id,d)=>{await db.collection('appointments').doc(id).update({done:!d});loadAdmin();};
+window.sNote=async id=>{const n=document.getElementById('note-'+id).value;await db.collection('appointments').doc(id).update({note:n});notif('💾','تم الحفظ','تم حفظ الملاحظة',3000);};
+window.dAppt=async id=>{if(!confirm('حذف هذا الموعد؟'))return;await db.collection('appointments').doc(id).delete();loadAdmin();};
+el('btn-del-all').addEventListener('click',async()=>{
+  if(!confirm('⚠️ حذف جميع المواعيد؟'))return;
+  const s=await db.collection('appointments').get();
+  await Promise.all(s.docs.map(d=>d.ref.delete())); loadAdmin();
+});
+
+async function loadSettings(){
+  try{const s=await db.collection('settings').doc('clinic').get();
+    if(s.exists){const d=s.data();
+      if(d.name){el('hdr-title').textContent='🏥 '+d.name;el('clinic-name').value=d.name;}
+      if(d.hours) el('work-hours').value=d.hours;
+    }
+  }catch(e){}
+}
+el('btn-save').addEventListener('click',async()=>{
+  const n=el('clinic-name').value.trim(), h=el('work-hours').value.trim();
+  if(!n)return;
+  await db.collection('settings').doc('clinic').set({name:n,hours:h},{merge:true});
+  el('hdr-title').textContent='🏥 '+n;
+  notif('✅','تم الحفظ','تم حفظ إعدادات العيادة',3000);
+});
+
+if(window.location.hash==='#admin') pg('admin');
+</script>
+</body>
+</html>
