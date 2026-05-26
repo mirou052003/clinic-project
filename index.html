@@ -121,7 +121,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--teal);background:whit
 </div>
 
 <header>
-  <h1 id="hdr-title">🏥 عيادة حجز المواعيد</h1>
+  <h1 id="hdr-title">🏥 عيادة الشفاء</h1>
   <p>احجز موعدك بسهولة — نهتم بصحتك</p>
   <div class="hdr-user" id="hdr-user" style="display:none">
     <img id="hdr-photo" src="" alt="" onerror="this.style.display='none'">
@@ -136,7 +136,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--teal);background:whit
     <img id="clinic-bg-img" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80" alt="عيادة" class="clinic-hero-img">
     <div class="clinic-hero-content">
       <img id="clinic-logo-img" src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=200&q=80" alt="شعار" class="clinic-hero-logo" onerror="this.style.display='none'">
-      <h1 id="landing-clinic-name">🏥 عيادتنا الطبية</h1>
+      <h1 id="landing-clinic-name">🏥 عيادة الشفاء</h1>
       <p id="landing-clinic-desc">نهتم بصحتك — رعاية متكاملة وخدمة ممتازة</p>
       <div class="clinic-hours" id="landing-hours">⏰ الدوام: 08:00 — 13:00 | 13:00 — 17:30</div>
     </div>
@@ -817,7 +817,10 @@ if(window.location.hash==='#admin') pg('admin');
     const s=await db.collection('settings').doc('clinic').get();
     if(s.exists){
       const d=s.data();
-      if(d.name) el('landing-clinic-name').textContent='🏥 '+d.name;
+      if(d.name){
+        el('hdr-title').textContent='🏥 '+d.name;
+        el('landing-clinic-name').textContent='🏥 '+d.name;
+      }
       if(d.desc) el('landing-clinic-desc').textContent=d.desc;
       if(d.hours) el('landing-hours').textContent='⏰ '+d.hours;
       if(d.bg) el('clinic-bg-img').src=d.bg;
