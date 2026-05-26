@@ -85,6 +85,24 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
 .ts.sel{background:var(--teal);border-color:var(--teal-dark);color:white;transform:scale(1.04);box-shadow:0 3px 10px rgba(13,148,136,0.35);}
 .ts[disabled]{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
 .ts.taken{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
+/* ── واجهة العيادة ── */
+.clinic-hero{background:linear-gradient(135deg,#0f766e,#0d9488,#14b8a6);color:white;padding:0;position:relative;overflow:hidden;}
+.clinic-hero-img{width:100%;height:220px;object-fit:cover;opacity:0.25;display:block;}
+.clinic-hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
+.clinic-hero-logo{width:80px;height:80px;border-radius:50%;border:3px solid rgba(255,255,255,0.7);object-fit:cover;margin-bottom:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+.clinic-hero h1{font-size:1.6rem;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.clinic-hero p{font-size:0.88rem;opacity:0.9;margin-top:4px;}
+.clinic-hours{background:rgba(255,255,255,0.15);border-radius:20px;padding:5px 16px;font-size:0.82rem;margin-top:8px;font-weight:700;}
+.doctor-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--shadow);margin-bottom:12px;display:flex;align-items:center;gap:16px;}
+.doctor-img{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid var(--teal-light);flex-shrink:0;}
+.doctor-info h3{font-size:1rem;font-weight:800;color:var(--text);}
+.doctor-info p{font-size:0.82rem;color:var(--gray);margin-top:3px;}
+.doctor-badge{display:inline-block;background:var(--teal-light);color:var(--teal-dark);border-radius:20px;padding:2px 10px;font-size:0.75rem;font-weight:700;margin-top:5px;}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.feature-box{background:white;border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow);}
+.feature-icon{font-size:1.8rem;margin-bottom:6px;}
+.feature-title{font-size:0.82rem;font-weight:800;color:var(--text);}
+.feature-desc{font-size:0.75rem;color:var(--gray);margin-top:2px;}
 @media print{body *{visibility:hidden;}#print-area,#print-area *{visibility:visible;}#print-area{position:fixed;top:0;left:0;width:100%;background:white;padding:20px;}}
 </style>
 </head>
@@ -105,22 +123,83 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
   </div>
 </header>
 
-<!-- AUTH -->
+<!-- AUTH + LANDING -->
 <div id="page-auth" class="page active">
-  <div class="container" style="max-width:420px"><br>
-    <div class="card" style="text-align:center;padding:34px 24px;">
-      <div style="font-size:3rem;margin-bottom:10px">🏥</div>
-      <h2 style="justify-content:center;font-size:1.2rem;margin-bottom:8px">مرحباً بك</h2>
-      <p style="color:var(--gray);font-size:0.9rem;margin-bottom:26px;line-height:1.7;">سجّل دخولك بحساب Google<br>لحجز موعدك في العيادة</p>
+
+  <!-- هيرو العيادة -->
+  <div class="clinic-hero">
+    <img id="clinic-bg-img" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80" alt="عيادة" class="clinic-hero-img">
+    <div class="clinic-hero-content">
+      <img id="clinic-logo-img" src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=200&q=80" alt="شعار" class="clinic-hero-logo" onerror="this.style.display='none'">
+      <h1 id="landing-clinic-name">🏥 عيادة الشفاء الطبية</h1>
+      <p id="landing-clinic-desc">نهتم بصحتك — رعاية متكاملة وخدمة ممتازة</p>
+      <div class="clinic-hours" id="landing-hours">⏰ الدوام: 08:00 — 13:00 | 13:00 — 17:30</div>
+    </div>
+  </div>
+
+  <div class="container" style="max-width:500px">
+
+    <!-- الأطباء -->
+    <div style="margin-top:16px">
+      <h2 style="font-size:1rem;font-weight:800;color:var(--teal-dark);margin-bottom:12px">👨‍⚕️ فريقنا الطبي</h2>
+      <div id="doctors-list">
+        <div class="doctor-card">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="طبيب" class="doctor-img">
+          <div class="doctor-info">
+            <h3 id="doc1-name">د. محمد العمري</h3>
+            <p id="doc1-spec">طب عام وأمراض باطنية</p>
+            <span class="doctor-badge" id="doc1-exp">خبرة 15 سنة</span>
+          </div>
+        </div>
+        <div class="doctor-card" id="doc2-card">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="طبيبة" class="doctor-img">
+          <div class="doctor-info">
+            <h3 id="doc2-name">د. سارة الأحمد</h3>
+            <p id="doc2-spec">طب الأطفال والتطعيمات</p>
+            <span class="doctor-badge" id="doc2-exp">خبرة 10 سنوات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- مميزات -->
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="feature-icon">🗓️</div>
+        <div class="feature-title">حجز سهل</div>
+        <div class="feature-desc">احجز موعدك في دقيقة</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">⏰</div>
+        <div class="feature-title">اختر وقتك</div>
+        <div class="feature-desc">أوقات مرنة صباحاً ومساءً</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🎫</div>
+        <div class="feature-title">تذكرة فورية</div>
+        <div class="feature-desc">احفظها أو اطبعها</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon">🔔</div>
+        <div class="feature-title">تذكير تلقائي</div>
+        <div class="feature-desc">نذكّرك قبل موعدك</div>
+      </div>
+    </div>
+
+    <!-- تسجيل الدخول -->
+    <div class="card" style="text-align:center;padding:26px 24px;">
+      <h2 style="justify-content:center;font-size:1.1rem;margin-bottom:6px">ابدأ الحجز الآن</h2>
+      <p style="color:var(--gray);font-size:0.86rem;margin-bottom:20px;">سجّل دخولك بحساب Google لحجز موعدك</p>
       <div id="auth-alert" class="alert alert-error"></div>
       <button class="btn btn-google" id="btn-glogin">
         <svg width="21" height="21" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         المتابعة بحساب Google
       </button>
-      <p style="color:var(--gray);font-size:0.76rem;margin-top:16px;line-height:1.6;">بتسجيل دخولك توافق على استخدام بياناتك لأغراض الحجز الطبي فقط</p>
+      <p style="color:var(--gray);font-size:0.74rem;margin-top:14px;">بتسجيل دخولك توافق على استخدام بياناتك لأغراض الحجز الطبي فقط</p>
     </div>
-    <div style="text-align:center;margin-top:8px;">
-      <button id="btn-to-admin" style="background:none;border:none;color:var(--gray);font-size:0.76rem;cursor:pointer;opacity:0.4;font-family:'Cairo',sans-serif;">دخول الطبيب</button>
+
+    <div style="text-align:center;margin-top:4px;">
+      <button id="btn-to-admin" style="background:none;border:none;color:var(--gray);font-size:0.74rem;cursor:pointer;opacity:0.35;font-family:'Cairo',sans-serif;">دخول الطبيب</button>
     </div>
   </div>
 </div>
@@ -201,9 +280,18 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
       <div class="card">
         <h2>⚙️ الإعدادات</h2>
         <div class="form-group"><label>اسم العيادة</label><input type="text" id="clinic-name" placeholder="عيادة د. محمد"></div>
-        <div class="form-group"><label>ساعات العمل</label><input type="text" id="work-hours" placeholder="08:00 — 13:00"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn" id="btn-save">💾 حفظ</button>
+        <div class="form-group"><label>وصف العيادة</label><input type="text" id="clinic-desc" placeholder="نهتم بصحتك — رعاية متكاملة"></div>
+        <div class="form-group"><label>ساعات العمل</label><input type="text" id="work-hours" placeholder="08:00 — 13:00 | 13:00 — 17:30"></div>
+        <div class="form-group"><label>🖼️ رابط صورة الخلفية</label><input type="text" id="clinic-bg" placeholder="https://..."></div>
+        <div class="form-group"><label>🖼️ رابط شعار العيادة</label><input type="text" id="clinic-logo" placeholder="https://..."></div>
+        <hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h3 style="font-size:0.95rem;font-weight:800;color:var(--teal-dark)">👨‍⚕️ الأطباء</h3>
+          <button onclick="addDoctorForm()" style="background:var(--teal);color:white;border:none;border-radius:10px;padding:7px 14px;font-family:'Cairo',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;">+ إضافة طبيب</button>
+        </div>
+        <div id="doctors-forms"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <button class="btn" id="btn-save">💾 حفظ كل الإعدادات</button>
           <button class="btn btn-outline" id="btn-admin-out" style="width:auto;padding:13px 18px;">🚪 خروج</button>
           <button class="btn btn-danger" id="btn-del-all" style="width:auto;padding:13px 18px;">🗑️ حذف الكل</button>
         </div>
@@ -549,23 +637,111 @@ el('btn-del-all').addEventListener('click',async()=>{
   await Promise.all(s.docs.map(d=>d.ref.delete())); loadAdmin();
 });
 
-async function loadSettings(){
-  try{const s=await db.collection('settings').doc('clinic').get();
-    if(s.exists){const d=s.data();
-      if(d.name){el('hdr-title').textContent='🏥 '+d.name;el('clinic-name').value=d.name;}
-      if(d.hours) el('work-hours').value=d.hours;
-    }
-  }catch(e){}
+// ── نظام الأطباء الديناميكي ──────────
+let doctors = [];
+
+function renderDoctorForms(){
+  el('doctors-forms').innerHTML = doctors.map((d,i)=>`
+    <div style="background:#f8fafc;border-radius:12px;padding:14px;margin-bottom:12px;border:1.5px solid #e2e8f0;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-weight:800;font-size:0.9rem;color:var(--teal-dark)">👨‍⚕️ طبيب ${i+1}</span>
+        <button onclick="removeDoctor(${i})" style="background:#fee2e2;color:#991b1b;border:none;border-radius:8px;padding:5px 12px;font-family:'Cairo',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;">🗑️ حذف</button>
+      </div>
+      <div class="form-group"><label>الاسم</label><input type="text" value="${d.name||''}" oninput="doctors[${i}].name=this.value" placeholder="د. محمد العمري"></div>
+      <div class="form-group"><label>التخصص</label><input type="text" value="${d.spec||''}" oninput="doctors[${i}].spec=this.value" placeholder="طب عام"></div>
+      <div class="form-group"><label>الخبرة</label><input type="text" value="${d.exp||''}" oninput="doctors[${i}].exp=this.value" placeholder="خبرة 10 سنوات"></div>
+      <div class="form-group" style="margin-bottom:0"><label>🖼️ رابط الصورة</label><input type="text" value="${d.img||''}" oninput="doctors[${i}].img=this.value" placeholder="https://..."></div>
+    </div>`).join('');
 }
+
+window.addDoctorForm = function(){
+  doctors.push({name:'',spec:'',exp:'',img:''});
+  renderDoctorForms();
+};
+
+window.removeDoctor = function(i){
+  if(!confirm('حذف هذا الطبيب؟')) return;
+  doctors.splice(i,1);
+  renderDoctorForms();
+  renderDoctorsLanding();
+};
+
+function renderDoctorsLanding(){
+  el('doctors-list').innerHTML = doctors.length ? doctors.map(d=>`
+    <div class="doctor-card">
+      <img src="${d.img||'https://randomuser.me/api/portraits/men/32.jpg'}" alt="${d.name}" class="doctor-img" onerror="this.src='https://randomuser.me/api/portraits/men/32.jpg'">
+      <div class="doctor-info">
+        <h3>${d.name||'د. الطبيب'}</h3>
+        <p>${d.spec||'طب عام'}</p>
+        ${d.exp?`<span class="doctor-badge">${d.exp}</span>`:''}
+      </div>
+    </div>`).join('') :
+    '<p style="color:var(--gray);font-size:0.88rem;text-align:center;padding:10px">لم يتم إضافة أطباء بعد</p>';
+}
+
+async function loadSettings(){
+  try{
+    const s=await db.collection('settings').doc('clinic').get();
+    if(s.exists){
+      const d=s.data();
+      if(d.name){el('hdr-title').textContent='🏥 '+d.name; el('clinic-name').value=d.name; el('landing-clinic-name').textContent='🏥 '+d.name;}
+      if(d.desc){el('clinic-desc').value=d.desc; el('landing-clinic-desc').textContent=d.desc;}
+      if(d.hours){el('work-hours').value=d.hours; el('landing-hours').textContent='⏰ '+d.hours;}
+      if(d.bg){el('clinic-bg').value=d.bg; el('clinic-bg-img').src=d.bg;}
+      if(d.logo){el('clinic-logo').value=d.logo; el('clinic-logo-img').src=d.logo;}
+      if(d.doctors && d.doctors.length){
+        doctors=d.doctors;
+        renderDoctorForms();
+        renderDoctorsLanding();
+      } else {
+        // أضف طبيباً افتراضياً لو فارغ
+        addDoctorForm();
+      }
+    } else {
+      addDoctorForm();
+    }
+  }catch(e){ addDoctorForm(); }
+}
+
 el('btn-save').addEventListener('click',async()=>{
-  const n=el('clinic-name').value.trim(), h=el('work-hours').value.trim();
-  if(!n)return;
-  await db.collection('settings').doc('clinic').set({name:n,hours:h},{merge:true});
-  el('hdr-title').textContent='🏥 '+n;
-  notif('✅','تم الحفظ','تم حفظ إعدادات العيادة',3000);
+  const data={
+    name: el('clinic-name').value.trim(),
+    desc: el('clinic-desc').value.trim(),
+    hours: el('work-hours').value.trim(),
+    bg: el('clinic-bg').value.trim(),
+    logo: el('clinic-logo').value.trim(),
+    doctors: doctors
+  };
+  await db.collection('settings').doc('clinic').set(data,{merge:true});
+  if(data.name){el('hdr-title').textContent='🏥 '+data.name; el('landing-clinic-name').textContent='🏥 '+data.name;}
+  if(data.desc) el('landing-clinic-desc').textContent=data.desc;
+  if(data.hours) el('landing-hours').textContent='⏰ '+data.hours;
+  if(data.bg) el('clinic-bg-img').src=data.bg;
+  if(data.logo) el('clinic-logo-img').src=data.logo;
+  renderDoctorsLanding();
+  notif('✅','تم الحفظ','تم حفظ إعدادات العيادة بنجاح',3000);
 });
 
 if(window.location.hash==='#admin') pg('admin');
+
+// تحميل بيانات العيادة للزوار
+(async()=>{
+  try{
+    const s=await db.collection('settings').doc('clinic').get();
+    if(s.exists){
+      const d=s.data();
+      if(d.name) el('landing-clinic-name').textContent='🏥 '+d.name;
+      if(d.desc) el('landing-clinic-desc').textContent=d.desc;
+      if(d.hours) el('landing-hours').textContent='⏰ '+d.hours;
+      if(d.bg) el('clinic-bg-img').src=d.bg;
+      if(d.logo) el('clinic-logo-img').src=d.logo;
+      if(d.doctors && d.doctors.length){
+        doctors=d.doctors;
+        renderDoctorsLanding();
+      }
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
