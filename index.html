@@ -22,8 +22,8 @@ header p{font-size:0.88rem;opacity:0.85;margin-top:3px;}
 .card h2{font-size:1.1rem;font-weight:800;color:var(--teal-dark);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
 .form-group{margin-bottom:14px;}
 label{display:block;font-size:0.85rem;font-weight:700;color:var(--gray);margin-bottom:5px;}
-input,textarea{width:100%;padding:11px 13px;border:2px solid #e2e8f0;border-radius:11px;font-family:'Cairo',sans-serif;font-size:0.92rem;color:var(--text);background:#fafafa;transition:border 0.2s;outline:none;}
-input:focus,textarea:focus{border-color:var(--teal);background:white;}
+input,textarea,select{width:100%;padding:11px 13px;border:2px solid #e2e8f0;border-radius:11px;font-family:'Cairo',sans-serif;font-size:0.92rem;color:var(--text);background:#fafafa;transition:border 0.2s;outline:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--teal);background:white;}
 .btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:white;border:none;border-radius:13px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(13,148,136,0.3);transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;}
 .btn:hover{transform:translateY(-2px);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none!important;}
@@ -70,7 +70,6 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
 .admin-actions{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;}
 .spin{display:inline-block;width:17px;height:17px;border:3px solid rgba(0,0,0,0.12);border-top-color:#555;border-radius:50%;animation:sp 0.7s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg);}}
-/* إشعار */
 .notif{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:white;border-radius:14px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,0.15);border-right:4px solid var(--teal);display:flex;align-items:center;gap:10px;z-index:9999;min-width:280px;max-width:92vw;font-family:'Cairo',sans-serif;animation:nin 0.4s ease;}
 .notif.hide{animation:nout 0.3s ease forwards;}
 @keyframes nin{from{top:-70px;opacity:0}to{top:14px;opacity:1}}
@@ -78,14 +77,12 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
 .notif-ico{font-size:1.7rem;flex-shrink:0;}
 .notif-t{font-weight:800;font-size:0.93rem;color:var(--text);}
 .notif-b{font-size:0.8rem;color:var(--gray);margin-top:1px;}
-/* شبكة الأوقات */
 .times-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px;}
 .ts{padding:10px 4px;border:2px solid #e2e8f0;border-radius:10px;text-align:center;font-family:'Cairo',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.15s;background:white;color:var(--text);width:100%;}
 .ts:hover:not([disabled]){border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);}
 .ts.sel{background:var(--teal);border-color:var(--teal-dark);color:white;transform:scale(1.04);box-shadow:0 3px 10px rgba(13,148,136,0.35);}
 .ts[disabled]{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
-.ts.taken{background:#f8fafc;color:#cbd5e1;border-color:#f1f5f9;cursor:not-allowed;text-decoration:line-through;font-weight:400;}
-/* ── واجهة العيادة ── */
+/* واجهة العيادة */
 .clinic-hero{background:linear-gradient(135deg,#0f766e,#0d9488,#14b8a6);color:white;padding:0;position:relative;overflow:hidden;}
 .clinic-hero-img{width:100%;height:220px;object-fit:cover;opacity:0.25;display:block;}
 .clinic-hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
@@ -103,6 +100,16 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
 .feature-icon{font-size:1.8rem;margin-bottom:6px;}
 .feature-title{font-size:0.82rem;font-weight:800;color:var(--text);}
 .feature-desc{font-size:0.75rem;color:var(--gray);margin-top:2px;}
+/* أزرار لوحة الطبيب */
+.doc-panel-btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.doc-panel-btn{background:white;border:2px solid var(--teal);border-radius:16px;padding:22px 16px;text-align:center;cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif;}
+.doc-panel-btn:hover,.doc-panel-btn.active{background:var(--teal);border-color:var(--teal-dark);}
+.doc-panel-btn:hover .dpb-icon,.doc-panel-btn.active .dpb-icon{filter:brightness(10);}
+.doc-panel-btn:hover .dpb-label,.doc-panel-btn.active .dpb-label{color:white;}
+.doc-panel-btn:hover .dpb-desc,.doc-panel-btn.active .dpb-desc{color:rgba(255,255,255,0.8);}
+.dpb-icon{font-size:2.2rem;margin-bottom:8px;}
+.dpb-label{font-size:1rem;font-weight:800;color:var(--teal-dark);}
+.dpb-desc{font-size:0.75rem;color:var(--gray);margin-top:3px;}
 @media print{body *{visibility:hidden;}#print-area,#print-area *{visibility:visible;}#print-area{position:fixed;top:0;left:0;width:100%;background:white;padding:20px;}}
 </style>
 </head>
@@ -125,65 +132,31 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
 
 <!-- AUTH + LANDING -->
 <div id="page-auth" class="page active">
-
-  <!-- هيرو العيادة -->
   <div class="clinic-hero">
     <img id="clinic-bg-img" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80" alt="عيادة" class="clinic-hero-img">
     <div class="clinic-hero-content">
       <img id="clinic-logo-img" src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=200&q=80" alt="شعار" class="clinic-hero-logo" onerror="this.style.display='none'">
-      <h1 id="landing-clinic-name">🏥 عيادة الشفاء الطبية</h1>
+      <h1 id="landing-clinic-name">🏥 عيادتنا الطبية</h1>
       <p id="landing-clinic-desc">نهتم بصحتك — رعاية متكاملة وخدمة ممتازة</p>
       <div class="clinic-hours" id="landing-hours">⏰ الدوام: 08:00 — 13:00 | 13:00 — 17:30</div>
     </div>
   </div>
 
   <div class="container" style="max-width:500px">
-
     <!-- الأطباء -->
     <div style="margin-top:16px">
       <h2 style="font-size:1rem;font-weight:800;color:var(--teal-dark);margin-bottom:12px">👨‍⚕️ فريقنا الطبي</h2>
       <div id="doctors-list">
-        <div class="doctor-card">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="طبيب" class="doctor-img">
-          <div class="doctor-info">
-            <h3 id="doc1-name">د. محمد العمري</h3>
-            <p id="doc1-spec">طب عام وأمراض باطنية</p>
-            <span class="doctor-badge" id="doc1-exp">خبرة 15 سنة</span>
-          </div>
-        </div>
-        <div class="doctor-card" id="doc2-card">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="طبيبة" class="doctor-img">
-          <div class="doctor-info">
-            <h3 id="doc2-name">د. سارة الأحمد</h3>
-            <p id="doc2-spec">طب الأطفال والتطعيمات</p>
-            <span class="doctor-badge" id="doc2-exp">خبرة 10 سنوات</span>
-          </div>
-        </div>
+        <p style="color:var(--gray);font-size:0.88rem;text-align:center;padding:10px">جاري تحميل الأطباء...</p>
       </div>
     </div>
 
     <!-- مميزات -->
     <div class="features-grid">
-      <div class="feature-box">
-        <div class="feature-icon">🗓️</div>
-        <div class="feature-title">حجز سهل</div>
-        <div class="feature-desc">احجز موعدك في دقيقة</div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon">⏰</div>
-        <div class="feature-title">اختر وقتك</div>
-        <div class="feature-desc">أوقات مرنة صباحاً ومساءً</div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon">🎫</div>
-        <div class="feature-title">تذكرة فورية</div>
-        <div class="feature-desc">احفظها أو اطبعها</div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon">🔔</div>
-        <div class="feature-title">تذكير تلقائي</div>
-        <div class="feature-desc">نذكّرك قبل موعدك</div>
-      </div>
+      <div class="feature-box"><div class="feature-icon">🗓️</div><div class="feature-title">حجز سهل</div><div class="feature-desc">احجز موعدك في دقيقة</div></div>
+      <div class="feature-box"><div class="feature-icon">⏰</div><div class="feature-title">اختر وقتك</div><div class="feature-desc">أوقات مرنة صباحاً ومساءً</div></div>
+      <div class="feature-box"><div class="feature-icon">🎫</div><div class="feature-title">تذكرة فورية</div><div class="feature-desc">احفظها أو اطبعها</div></div>
+      <div class="feature-box"><div class="feature-icon">🔔</div><div class="feature-title">تذكير تلقائي</div><div class="feature-desc">نذكّرك قبل موعدك</div></div>
     </div>
 
     <!-- تسجيل الدخول -->
@@ -221,6 +194,7 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
           <div class="ticket-info" id="t-date"></div>
           <div class="ticket-info" id="t-time"></div>
           <div class="ticket-info" id="t-phone"></div>
+          <div class="ticket-info" id="t-wilaya"></div>
           <br><div style="font-size:0.8rem;opacity:0.75">يُرجى الحضور قبل موعدك بـ 10 دقائق</div>
         </div>
         <br>
@@ -231,6 +205,81 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
         <div id="book-alert" class="alert"></div>
         <div class="form-group"><label>👤 الاسم الكامل</label><input type="text" id="b-name"></div>
         <div class="form-group"><label>📞 رقم الهاتف</label><input type="tel" id="b-phone" placeholder="05xxxxxxxx"></div>
+        <div class="form-group">
+          <label>📍 الولاية</label>
+          <select id="b-wilaya">
+            <option value="">— اختر الولاية —</option>
+            <option value="01 - أدرار">01 - أدرار</option>
+            <option value="02 - الشلف">02 - الشلف</option>
+            <option value="03 - الأغواط">03 - الأغواط</option>
+            <option value="04 - أم البواقي">04 - أم البواقي</option>
+            <option value="05 - باتنة">05 - باتنة</option>
+            <option value="06 - بجاية">06 - بجاية</option>
+            <option value="07 - بسكرة">07 - بسكرة</option>
+            <option value="08 - بشار">08 - بشار</option>
+            <option value="09 - البليدة">09 - البليدة</option>
+            <option value="10 - البويرة">10 - البويرة</option>
+            <option value="11 - تمنراست">11 - تمنراست</option>
+            <option value="12 - تبسة">12 - تبسة</option>
+            <option value="13 - تلمسان">13 - تلمسان</option>
+            <option value="14 - تيارت">14 - تيارت</option>
+            <option value="15 - تيزي وزو">15 - تيزي وزو</option>
+            <option value="16 - الجزائر">16 - الجزائر</option>
+            <option value="17 - الجلفة">17 - الجلفة</option>
+            <option value="18 - جيجل">18 - جيجل</option>
+            <option value="19 - سطيف">19 - سطيف</option>
+            <option value="20 - سعيدة">20 - سعيدة</option>
+            <option value="21 - سكيكدة">21 - سكيكدة</option>
+            <option value="22 - سيدي بلعباس">22 - سيدي بلعباس</option>
+            <option value="23 - عنابة">23 - عنابة</option>
+            <option value="24 - قالمة">24 - قالمة</option>
+            <option value="25 - قسنطينة">25 - قسنطينة</option>
+            <option value="26 - المدية">26 - المدية</option>
+            <option value="27 - مستغانم">27 - مستغانم</option>
+            <option value="28 - المسيلة">28 - المسيلة</option>
+            <option value="29 - معسكر">29 - معسكر</option>
+            <option value="30 - ورقلة">30 - ورقلة</option>
+            <option value="31 - وهران">31 - وهران</option>
+            <option value="32 - البيض">32 - البيض</option>
+            <option value="33 - إليزي">33 - إليزي</option>
+            <option value="34 - برج بوعريريج">34 - برج بوعريريج</option>
+            <option value="35 - بومرداس">35 - بومرداس</option>
+            <option value="36 - الطارف">36 - الطارف</option>
+            <option value="37 - تندوف">37 - تندوف</option>
+            <option value="38 - تيسمسيلت">38 - تيسمسيلت</option>
+            <option value="39 - الوادي">39 - الوادي</option>
+            <option value="40 - خنشلة">40 - خنشلة</option>
+            <option value="41 - سوق أهراس">41 - سوق أهراس</option>
+            <option value="42 - تيبازة">42 - تيبازة</option>
+            <option value="43 - ميلة">43 - ميلة</option>
+            <option value="44 - عين الدفلى">44 - عين الدفلى</option>
+            <option value="45 - النعامة">45 - النعامة</option>
+            <option value="46 - عين تيموشنت">46 - عين تيموشنت</option>
+            <option value="47 - غرداية">47 - غرداية</option>
+            <option value="48 - غليزان">48 - غليزان</option>
+            <option value="49 - تيميمون">49 - تيميمون</option>
+            <option value="50 - برج باجي مختار">50 - برج باجي مختار</option>
+            <option value="51 - أولاد جلال">51 - أولاد جلال</option>
+            <option value="52 - بني عباس">52 - بني عباس</option>
+            <option value="53 - عين صالح">53 - عين صالح</option>
+            <option value="54 - عين قزام">54 - عين قزام</option>
+            <option value="55 - تقرت">55 - تقرت</option>
+            <option value="56 - جانت">56 - جانت</option>
+            <option value="57 - المغير">57 - المغير</option>
+            <option value="58 - المنيعة">58 - المنيعة</option>
+            <option value="59 - بريان">59 - بريان</option>
+            <option value="60 - تيارت الجنوبية">60 - تيارت الجنوبية</option>
+            <option value="61 - الأبيض سيدي الشيخ">61 - الأبيض سيدي الشيخ</option>
+            <option value="62 - عين بن خليل">62 - عين بن خليل</option>
+            <option value="63 - قصر الشلالة">63 - قصر الشلالة</option>
+            <option value="64 - تيزي وزو الجنوبية">64 - تيزي وزو الجنوبية</option>
+            <option value="65 - زرالدة">65 - زرالدة</option>
+            <option value="66 - دار البيضاء">66 - دار البيضاء</option>
+            <option value="67 - الأخضرية">67 - الأخضرية</option>
+            <option value="68 - سور الغزلان">68 - سور الغزلان</option>
+            <option value="69 - الحجار">69 - الحجار</option>
+          </select>
+        </div>
         <div class="form-group"><label>📅 تاريخ الموعد (الجمعة إجازة)</label><input type="date" id="b-date"></div>
         <div id="times-wrap" style="display:none">
           <label style="display:block;font-size:0.85rem;font-weight:700;color:var(--gray);margin-bottom:6px;">⏰ اختر الوقت المناسب</label>
@@ -262,40 +311,70 @@ input:focus,textarea:focus{border-color:var(--teal);background:white;}
       <br>
       <button class="btn btn-outline" id="btn-back" style="margin-top:4px;">← رجوع</button>
     </div>
+
     <div id="admin-dash" style="display:none">
+      <!-- إحصائيات -->
       <div class="stats-grid">
         <div class="stat-box"><div class="stat-num" id="s-total">0</div><div class="stat-label">إجمالي</div></div>
         <div class="stat-box"><div class="stat-num" id="s-today">0</div><div class="stat-label">اليوم</div></div>
         <div class="stat-box"><div class="stat-num" id="s-done">0</div><div class="stat-label">مكتملة</div></div>
       </div>
-      <div class="card">
-        <h2>🗂️ إدارة المواعيد</h2>
-        <div class="filter-row">
-          <input type="date" id="a-filter">
-          <button class="btn" id="btn-af">🔍</button>
-          <button class="btn btn-outline" id="btn-af-all">الكل</button>
+
+      <!-- زرا التبديل الرئيسيان -->
+      <div class="doc-panel-btns">
+        <div class="doc-panel-btn active" id="dpb-appts" onclick="showDocPanel('appts')">
+          <div class="dpb-icon">🗂️</div>
+          <div class="dpb-label">المرضى</div>
+          <div class="dpb-desc">عرض وإدارة المواعيد</div>
         </div>
-        <div id="a-list"><div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div></div>
+        <div class="doc-panel-btn" id="dpb-settings" onclick="showDocPanel('settings')">
+          <div class="dpb-icon">⚙️</div>
+          <div class="dpb-label">الإعدادات</div>
+          <div class="dpb-desc">تخصيص العيادة والأطباء</div>
+        </div>
       </div>
-      <div class="card">
-        <h2>⚙️ الإعدادات</h2>
-        <div class="form-group"><label>اسم العيادة</label><input type="text" id="clinic-name" placeholder="عيادة د. محمد"></div>
-        <div class="form-group"><label>وصف العيادة</label><input type="text" id="clinic-desc" placeholder="نهتم بصحتك — رعاية متكاملة"></div>
-        <div class="form-group"><label>ساعات العمل</label><input type="text" id="work-hours" placeholder="08:00 — 13:00 | 13:00 — 17:30"></div>
-        <div class="form-group"><label>🖼️ رابط صورة الخلفية</label><input type="text" id="clinic-bg" placeholder="https://..."></div>
-        <div class="form-group"><label>🖼️ رابط شعار العيادة</label><input type="text" id="clinic-logo" placeholder="https://..."></div>
-        <hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <h3 style="font-size:0.95rem;font-weight:800;color:var(--teal-dark)">👨‍⚕️ الأطباء</h3>
-          <button onclick="addDoctorForm()" style="background:var(--teal);color:white;border:none;border-radius:10px;padding:7px 14px;font-family:'Cairo',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;">+ إضافة طبيب</button>
+
+      <!-- قسم المواعيد -->
+      <div id="panel-appts">
+        <div class="card">
+          <h2>🗂️ إدارة المواعيد</h2>
+          <div class="filter-row">
+            <input type="date" id="a-filter">
+            <button class="btn" id="btn-af">🔍</button>
+            <button class="btn btn-outline" id="btn-af-all">الكل</button>
+          </div>
+          <div id="a-list"><div class="empty"><div class="empty-icon">⏳</div><p>جاري التحميل...</p></div></div>
         </div>
-        <div id="doctors-forms"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-          <button class="btn" id="btn-save">💾 حفظ كل الإعدادات</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
           <button class="btn btn-outline" id="btn-admin-out" style="width:auto;padding:13px 18px;">🚪 خروج</button>
           <button class="btn btn-danger" id="btn-del-all" style="width:auto;padding:13px 18px;">🗑️ حذف الكل</button>
         </div>
       </div>
+
+      <!-- قسم الإعدادات -->
+      <div id="panel-settings" style="display:none">
+        <div class="card">
+          <h2>⚙️ إعدادات العيادة</h2>
+          <div class="form-group"><label>🏥 اسم العيادة</label><input type="text" id="clinic-name" placeholder="عيادة د. ..."></div>
+          <div class="form-group"><label>📝 وصف العيادة</label><input type="text" id="clinic-desc" placeholder="نهتم بصحتك — رعاية متكاملة"></div>
+          <div class="form-group"><label>⏰ ساعات العمل</label><input type="text" id="work-hours" placeholder="08:00 — 13:00 | 13:00 — 17:30"></div>
+          <div class="form-group"><label>🖼️ رابط صورة الخلفية</label><input type="text" id="clinic-bg" placeholder="https://..."></div>
+          <div class="form-group"><label>🖼️ رابط شعار العيادة</label><input type="text" id="clinic-logo" placeholder="https://..."></div>
+          <hr style="margin:16px 0;border:none;border-top:1px solid #e2e8f0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <h3 style="font-size:0.95rem;font-weight:800;color:var(--teal-dark)">👨‍⚕️ الأطباء الذين يظهرون للمرضى</h3>
+            <button onclick="addDoctorForm()" style="background:var(--teal);color:white;border:none;border-radius:10px;padding:7px 14px;font-family:'Cairo',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;">+ إضافة طبيب</button>
+          </div>
+          <div id="doctors-forms"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+            <button class="btn" id="btn-save">💾 حفظ كل الإعدادات</button>
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <button class="btn btn-outline" id="btn-admin-out2" style="width:auto;padding:13px 18px;">🚪 خروج</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -321,10 +400,9 @@ gp.setCustomParameters({prompt:'select_account'});
 
 let me = null, adminWatcher = null, adminCount = 0, ntimer = null;
 
-// ── مساعدات ─────────────────────
 const el  = id => document.getElementById(id);
 const fri = d  => new Date(d+'T00:00:00').getDay()===5;
-const fmt = d  => new Date(d+'T00:00:00').toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const fmt = d  => new Date(d+'T00:00:00').toLocaleDateString('ar-DZ',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 const tod = () => new Date().toISOString().split('T')[0];
 
 function pg(p){
@@ -358,6 +436,14 @@ function beep(){
 
 const GSVG = `<svg width="21" height="21" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>`;
 
+// ── تبديل لوحة الطبيب (مرضى / إعدادات) ──
+window.showDocPanel = function(which){
+  el('panel-appts').style.display  = which==='appts'    ? 'block' : 'none';
+  el('panel-settings').style.display = which==='settings' ? 'block' : 'none';
+  el('dpb-appts').classList.toggle('active',    which==='appts');
+  el('dpb-settings').classList.toggle('active', which==='settings');
+};
+
 // ── AUTH ─────────────────────────
 auth.onAuthStateChanged(async user=>{
   me=user;
@@ -381,7 +467,6 @@ auth.onAuthStateChanged(async user=>{
   el('b-name').value=user.displayName||'';
   el('b-date').min=tod();
   try{const s=await db.collection('users').doc(user.uid).get(); if(s.exists) el('b-phone').value=s.data().phone||'';}catch(e){}
-  // تذكير غداً
   const tmr=new Date(); tmr.setDate(tmr.getDate()+1);
   const tmrStr=tmr.toISOString().split('T')[0];
   db.collection('appointments').where('userId','==',user.uid).where('date','==',tmrStr).where('done','==',false).get()
@@ -428,6 +513,7 @@ function doLogout(){
 
 el('btn-logout').addEventListener('click',doLogout);
 el('btn-admin-out').addEventListener('click',doLogout);
+el('btn-admin-out2').addEventListener('click',doLogout);
 el('btn-to-admin').addEventListener('click',()=>{window.location.hash='#admin';pg('admin');});
 el('btn-back').addEventListener('click',()=>{window.location.hash='';pg('auth');});
 
@@ -456,9 +542,7 @@ el('b-date').addEventListener('change',async function(){
   const snap=await db.collection('appointments').where('date','==',d).get();
   const taken=new Set(snap.docs.filter(x=>!x.data().cancelled).map(x=>x.data().time));
 
-  // الفترة الأولى 08:00 - 13:00 (20 وقت)
   const slots1=[]; for(let i=0;i<20;i++){const t=8*60+i*15;slots1.push(String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'));}
-  // الفترة الثانية 13:00 - 17:30 (19 وقت)
   const slots2=[]; for(let i=0;i<19;i++){const t=13*60+i*15;slots2.push(String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'));}
   const allSlots=[...slots1,...slots2];
 
@@ -490,9 +574,11 @@ window.pickTime=function(t,btn){
 el('btn-book').addEventListener('click',async()=>{
   if(!me) return;
   const name=el('b-name').value.trim(), phone=el('b-phone').value.trim();
+  const wilaya=el('b-wilaya').value;
   const date=el('b-date').value, time=el('b-time').value;
   if(!name)  return alrt('book-alert','⚠️ أدخل الاسم الكامل');
   if(!phone||phone.length<9) return alrt('book-alert','⚠️ أدخل رقم هاتف صحيح');
+  if(!wilaya) return alrt('book-alert','⚠️ اختر الولاية');
   if(!date)  return alrt('book-alert','⚠️ اختر تاريخ الموعد');
   if(fri(date)) return alrt('book-alert','⛔ يوم الجمعة إجازة');
   if(!time)  return alrt('book-alert','⚠️ اختر الوقت من الشبكة أعلاه');
@@ -511,7 +597,7 @@ el('btn-book').addEventListener('click',async()=>{
     }
     const num=active.length+1;
     await db.collection('appointments').add({
-      userId:me.uid, userEmail:me.email, name, phone, date, time, num,
+      userId:me.uid, userEmail:me.email, name, phone, wilaya, date, time, num,
       done:false, cancelled:false, note:'',
       createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -520,8 +606,9 @@ el('btn-book').addEventListener('click',async()=>{
     el('t-date').textContent='📅 '+fmt(date);
     el('t-time').textContent='⏰ الساعة: '+time;
     el('t-phone').textContent='📞 '+phone;
+    el('t-wilaya').textContent='📍 '+wilaya;
     const tw=el('ticket-wrap'); tw.style.display='block'; tw.scrollIntoView({behavior:'smooth'});
-    el('b-date').value=''; el('b-time').value='';
+    el('b-date').value=''; el('b-time').value=''; el('b-wilaya').value='';
     el('times-wrap').style.display='none'; el('slots-info').style.display='none';
     alrt('book-alert',`🎉 تم الحجز! رقمك ${num} — الساعة ${time}`,'success');
     notif('✅','تم الحجز بنجاح!',`رقمك ${num} — ${fmt(date)} الساعة ${time}`);
@@ -549,6 +636,7 @@ async function loadMy(){
           </div>
           <div style="color:var(--gray);font-size:0.83rem;margin-top:4px">📅 ${fmt(a.date)}</div>
           <div style="color:var(--gray);font-size:0.83rem">⏰ ${a.time} | 📞 ${a.phone}</div>
+          ${a.wilaya?`<div style="color:var(--gray);font-size:0.83rem">📍 ${a.wilaya}</div>`:''}
         </div>
         <span class="badge ${a.cancelled?'badge-cancelled':a.done?'badge-done':'badge-pending'}">${a.cancelled?'❌ ملغي':a.done?'✅ مكتمل':'⏳ قادم'}</span>
       </div>
@@ -561,7 +649,6 @@ window.cancelMy=async(id,date)=>{
   await db.collection('appointments').doc(id).update({cancelled:true});
   notif('❌','تم إلغاء الموعد','يمكنك حجز موعد جديد في أي وقت');
   loadMy();
-  // إعادة ترقيم
   const snap=await db.collection('appointments').where('date','==',date).get();
   const active=snap.docs.filter(d=>!d.data().cancelled).sort((a,b)=>a.data().time.localeCompare(b.data().time));
   const batch=db.batch();
@@ -612,6 +699,7 @@ async function loadAdmin(){
             <span style="background:${a.cancelled?'#ef4444':'var(--teal)'};color:white;border-radius:20px;padding:2px 10px;font-size:0.73rem">رقم ${a.num}</span>
           </div>
           <div style="color:var(--gray);font-size:0.83rem;margin-top:4px">📞 ${a.phone} | ⏰ ${a.time}</div>
+          ${a.wilaya?`<div style="color:var(--gray);font-size:0.78rem">📍 ${a.wilaya}</div>`:''}
           <div style="color:var(--gray);font-size:0.78rem">📧 ${a.userEmail||'—'}</div>
         </div>
         <span class="badge ${a.cancelled?'badge-cancelled':a.done?'badge-done':'badge-pending'}">${a.cancelled?'❌ ملغي':a.done?'✅ مكتمل':'⏳ قادم'}</span>
@@ -647,7 +735,7 @@ function renderDoctorForms(){
         <span style="font-weight:800;font-size:0.9rem;color:var(--teal-dark)">👨‍⚕️ طبيب ${i+1}</span>
         <button onclick="removeDoctor(${i})" style="background:#fee2e2;color:#991b1b;border:none;border-radius:8px;padding:5px 12px;font-family:'Cairo',sans-serif;font-weight:700;font-size:0.8rem;cursor:pointer;">🗑️ حذف</button>
       </div>
-      <div class="form-group"><label>الاسم</label><input type="text" value="${d.name||''}" oninput="doctors[${i}].name=this.value" placeholder="د. محمد العمري"></div>
+      <div class="form-group"><label>الاسم</label><input type="text" value="${d.name||''}" oninput="doctors[${i}].name=this.value" placeholder="د. ..."></div>
       <div class="form-group"><label>التخصص</label><input type="text" value="${d.spec||''}" oninput="doctors[${i}].spec=this.value" placeholder="طب عام"></div>
       <div class="form-group"><label>الخبرة</label><input type="text" value="${d.exp||''}" oninput="doctors[${i}].exp=this.value" placeholder="خبرة 10 سنوات"></div>
       <div class="form-group" style="margin-bottom:0"><label>🖼️ رابط الصورة</label><input type="text" value="${d.img||''}" oninput="doctors[${i}].img=this.value" placeholder="https://..."></div>
@@ -694,7 +782,6 @@ async function loadSettings(){
         renderDoctorForms();
         renderDoctorsLanding();
       } else {
-        // أضف طبيباً افتراضياً لو فارغ
         addDoctorForm();
       }
     } else {
