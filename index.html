@@ -198,7 +198,13 @@ input:focus,textarea:focus,select:focus{border-color:var(--teal);background:whit
           <br><div style="font-size:0.8rem;opacity:0.75">يُرجى الحضور قبل موعدك بـ 10 دقائق</div>
         </div>
         <br>
-        <button class="btn" onclick="window.print()" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.5);">🖨️ طباعة التذكرة</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+          <button class="btn" onclick="window.print()" style="background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.5);flex:1;min-width:140px;">🖨️ طباعة التذكرة</button>
+          <button class="btn" id="btn-wa" onclick="sendToDoctor()" style="background:#25D366;border:none;flex:1;min-width:140px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.882a.5.5 0 0 0 .613.613l6.023-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.001-1.368l-.36-.214-3.722.912.928-3.624-.235-.373A9.818 9.818 0 1 1 12 21.818z"/></svg>
+            إرسال للطبيب
+          </button>
+        </div>
       </div>
       <div class="card">
         <h2>📋 حجز موعد جديد</h2>
@@ -392,7 +398,16 @@ firebase.initializeApp({
   appId:             "1:58364745099:web:f7beccc489ae830ec30b8e"
 });
 
-const DOCTOR = "essadek650@gmail.com";
+const DOCTOR = null; // الإيميل محفوظ في Firestore بأمان
+
+// ── التحقق من صلاحية الأدمن ──────────
+async function isAdmin(email){
+  try{
+    const s = await db.collection('admins').doc('config').get();
+    if(s.exists) return s.data().email === email;
+  }catch(e){}
+  return false;
+}
 const auth = firebase.auth();
 const db   = firebase.firestore();
 const gp   = new firebase.auth.GoogleAuthProvider();
@@ -456,7 +471,8 @@ auth.onAuthStateChanged(async user=>{
   el('hdr-name').textContent=user.displayName||user.email;
   if(user.photoURL) el('hdr-photo').src=user.photoURL;
 
-  if(user.email===DOCTOR){
+  const admin = await isAdmin(user.email);
+  if(admin){
     pg('admin');
     el('admin-login').style.display='none';
     el('admin-dash').style.display='block';
@@ -490,7 +506,8 @@ el('btn-admin-login').addEventListener('click',async()=>{
   el('btn-admin-login').innerHTML='<span class="spin"></span> جاري الاتصال...';
   try{
     const r=await auth.signInWithPopup(gp);
-    if(r.user.email!==DOCTOR){
+    const admin = await isAdmin(r.user.email);
+    if(!admin){
       await auth.signOut();
       el('btn-admin-login').disabled=false;
       el('btn-admin-login').innerHTML=GSVG+' دخول بحساب Google';
@@ -809,7 +826,29 @@ el('btn-save').addEventListener('click',async()=>{
   notif('✅','تم الحفظ','تم حفظ إعدادات العيادة بنجاح',3000);
 });
 
-if(window.location.hash==='#admin') pg('admin');
+// ── إرسال التذكرة للطبيب عبر واتساب ────
+const DOCTOR_WA = "213781272822"; // رقم واتساب الطبيب
+
+window.sendToDoctor = function(){
+  const num  = el('t-num').textContent;
+  const name = el('t-name').textContent;
+  const date = el('t-date').textContent;
+  const time = el('t-time').textContent;
+  const phone= el('t-phone').textContent;
+  const wilaya = el('t-wilaya') ? el('t-wilaya').textContent : '';
+
+  const msg = `🏥 *حجز موعد جديد*\n\n` +
+    `🎫 رقم الدور: *${num}*\n` +
+    `👤 الاسم: *${name}*\n` +
+    `${date}\n` +
+    `${time}\n` +
+    `${phone}\n` +
+    `${wilaya ? wilaya+'\n' : ''}` +
+    `\n✅ تم الحجز من خلال نظام العيادة`;
+
+  const url = `https://wa.me/${DOCTOR_WA}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+};
 
 // تحميل بيانات العيادة للزوار
 (async()=>{
@@ -835,3 +874,4 @@ if(window.location.hash==='#admin') pg('admin');
 </script>
 </body>
 </html>
+if(window.location.hash==='#admin') pg('admin');
